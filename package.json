@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "sentry": "node --import ./instrument.js app.js"
   },
   "dependencies": {
     "@sentry/node": "^11.9.0",
