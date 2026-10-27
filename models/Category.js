@@ -12,6 +12,8 @@ class CategoryManager {
       this.categories.push(name);
       return true;
     }
+    throw new Error("category existed error");
+    console.log("Duplicate cateogry name");
     return false;
   }
 }
