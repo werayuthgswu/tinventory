@@ -1,12 +1,20 @@
-let categories = ['Electronics', 'Clothing', 'Books'];
+class CategoryManager {
+  constructor() {
+    this.categories = ['Electronics', 'Clothing', 'Books'];
+  }
 
-module.exports = {
-  getAll: () => categories,
-  create: (name) => {
-    if (!categories.includes(name)) {
-      categories.push(name);
+  getAll() {
+    return this.categories;
+  }
+
+  create(name) {
+    if (!this.categories.includes(name)) {
+      this.categories.push(name);
       return true;
     }
     return false;
   }
-};
+}
+
+// Export a single instance of the manager
+module.exports = new CategoryManager();

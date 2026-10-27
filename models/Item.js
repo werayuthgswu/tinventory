@@ -1,9 +1,6 @@
-let items = [];
-let nextId = 1;
-
 class Item {
-  constructor(name, category, detail) {
-    this.id = nextId++;
+  constructor(id, name, category, detail) {
+    this.id = id;
     this.name = name;
     this.category = category;
     this.detail = detail;
@@ -19,20 +16,35 @@ class Item {
   }
 }
 
-module.exports = {
-  getAll: () => items,
-  getById: (id) => items.find(item => item.id == id),
-  create: (name, category, detail) => {
-    const item = new Item(name, category, detail);
-    items.push(item);
+class ItemManager {
+  constructor() {
+    this.items = [];
+    this.nextId = 1;
+  }
+
+  getAll() {
+    return this.items;
+  }
+
+  getById(id) {
+    return this.items.find(item => item.id == id);
+  }
+
+  create(name, category, detail) {
+    const item = new Item(this.nextId++, name, category, detail);
+    this.items.push(item);
     return item;
-  },
-  addComment: (itemId, comment) => {
-    const item = items.find(item => item.id == itemId);
+  }
+
+  addComment(itemId, comment) {
+    const item = this.getById(itemId);
     if (item) {
       item.addComment(comment);
       return true;
     }
     return false;
   }
-};
+}
+
+// Export an instance of the manager so it acts as a shared module
+module.exports = new ItemManager();

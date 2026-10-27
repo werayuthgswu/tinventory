@@ -15,6 +15,7 @@ module.exports = {
   createItem: (req, res) => {
     const { name, category, detail } = req.body;
     Item.create(name, category, detail);
+    console.log("Creating Item: "+ name);
     res.redirect('/');
   },
 

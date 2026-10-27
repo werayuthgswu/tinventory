@@ -8,6 +8,7 @@ module.exports = {
   createCategory: (req, res) => {
     const { name } = req.body;
     Category.create(name);
+    console.log("Creating Category: "+ name);
     res.redirect('/categories/new');
   }
 };
