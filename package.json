@@ -4,6 +4,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "start:lab": "PUBLIC_BIND=1 node app.js",
+    "fixed": "TRAINING_VULNS=off node app.js",
     "sentry": "node --import ./instrument.js app.js"
   },
   "dependencies": {

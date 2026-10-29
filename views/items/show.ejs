@@ -4,6 +4,9 @@
   <title><%= item.name %></title>
 </head>
 <body>
+  <div style="background:#fdd;border:2px solid #c00;padding:6px 12px;font:14px monospace;text-align:center">
+    ⚠ DELIBERATELY VULNERABLE APP — SECURITY TRAINING ONLY — DO NOT RUN PUBLICLY
+  </div>
   <h1><%= item.name %></h1>
   <p><strong>Category:</strong> <%= item.category %></p>
   <p><strong>Detail:</strong> <%= item.detail %></p>
@@ -12,7 +15,10 @@
   <div id="comments">
     <% item.comments.forEach(comment => { %>
       <div>
-        <p><%= comment.text %></p>
+        <!-- VULN: STORED XSS (CWE-79) — comment text is rendered unescaped
+             (raw interpolation). Attacker-controlled via POST /api/items/:id/comments.
+             FIX: switch back to HTML-escaped interpolation (percent-equals tag). -->
+        <span>Comment: <%- comment.text %></span>
         <small><%= comment.timestamp %></small>
       </div>
     <% }) %>

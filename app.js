@@ -6,6 +6,7 @@ const Sentry = require('@sentry/node');
 const itemRoutes = require('./routes/items');
 const categoryRoutes = require('./routes/categories');
 const apiRoutes = require('./routes/api');
+const vulnRoutes = require('./routes/vuln'); // TRAINING ONLY
 
 const app = express();
 
@@ -19,6 +20,15 @@ app.use(express.static('public'));
 app.use('/', itemRoutes);
 app.use('/categories', categoryRoutes);
 app.use('/api', apiRoutes);
+app.use('/api', vulnRoutes); // TRAINING ONLY - deliberately vulnerable
+
+if (process.env.TRAINING_VULNS !== 'off') {
+  console.log('\x1b[31m%s\x1b[0m', `
+  ██████  WARNING ██████
+  This is a DELIBERATELY VULNERABLE application for security education.
+  It must NEVER be exposed to a real network or the internet.
+  Set TRAINING_VULNS=off to disable all vulnerable routes (fixed version).`);
+}
 
 // 2. STEP B: The 404 Catch-All Middleware
 // (Place this after all valid routes)
@@ -44,6 +54,10 @@ app.use(
 
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Guardrail: bind to loopback by default so the vulnerable app is only
+// reachable from the training machine. Override with PUBLIC_BIND=1 in an
+// isolated lab network only.
+const BIND = process.env.PUBLIC_BIND ? '0.0.0.0' : '127.0.0.1';
+app.listen(PORT, BIND, () => {
+  console.log(`Server running on http://${BIND}:${PORT}`);
 });
