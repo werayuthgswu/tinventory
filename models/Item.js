@@ -29,7 +29,14 @@ class ItemManager {
   }
 
   getById(id) {
-    return this.items.find(item => item.id == id);
+    let item = this.items.find(item => item.id == id);
+    if (item){
+      return item;
+    }else{
+      throw new Error("item not found error");
+      console.log("item not found");
+      return item;
+    }
   }
 
   create(name, category, detail) {
